@@ -3,6 +3,7 @@
 	import { user } from '$lib/sessionStore';
 	import SignupForm from '../../components/SignupForm.svelte';
 	import Photos from '../../components/Photos.svelte';
+	import Recievers from '../../components/Recievers.svelte';
 
 	let loading = false;
 	let authError = null;
@@ -33,19 +34,28 @@
 	}
 </script>
 
-{#if $user}
-	<div>
-		<div>
-			<Photos />
+<svelte:head>
+	<title>MemoryPrints | Dashboard</title>
+</svelte:head>
+
+<div>
+	{#if $user}
+		<div class="space-y-24">
+			<div>
+				<Photos />
+			</div>
+			<div>
+				<Recievers />
+			</div>
 		</div>
-	</div>
-{:else}
-	<div class="flex flex-col items-center justify-center w-full">
-		<div>
-			<h1 class="font-brand text-2xl text-gray-600 font-semibold">Sign In to MemoryPrints</h1>
+	{:else}
+		<div class="flex flex-col items-center justify-center w-full">
+			<div>
+				<h1 class="font-brand text-2xl text-gray-600 font-semibold">Sign In to MemoryPrints</h1>
+			</div>
+			<div class="w-1/2">
+				<SignupForm on:submit={handleAuth} {loading} error={authError} />
+			</div>
 		</div>
-		<div class="w-1/2">
-			<SignupForm on:submit={handleAuth} {loading} error={authError} />
-		</div>
-	</div>
-{/if}
+	{/if}
+</div>

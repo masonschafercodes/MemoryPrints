@@ -124,13 +124,9 @@
 
 <div>
 	<div class="flex justify-between items-center w-full">
-		{#if !loading}
-			<div>
-				<h1 class="text-2xl font-brand font-semibold text-gray-700">
-					{3 - userPhotos.length} Photos Left to Upload
-				</h1>
-			</div>
-		{/if}
+		<div>
+			<h1 class="text-2xl font-brand font-semibold text-gray-700">Photos</h1>
+		</div>
 		{#if !loading && userPhotos.length < 3}
 			<div>
 				<label
