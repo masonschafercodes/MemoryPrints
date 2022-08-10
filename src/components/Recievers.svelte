@@ -1,9 +1,16 @@
 <script>
 	import { onMount } from 'svelte';
+	import LoadingButton from './ui/LoadingButton.svelte';
+	import ModalForm from './ui/ModalForm.svelte';
 	import Person from './ui/Person.svelte';
 
 	let loading = false;
 	let people = [];
+	let showModal = false;
+
+	const handleToggleModal = () => {
+		showModal = !showModal;
+	};
 
 	onMount(async () => {
 		loading = true;
@@ -27,8 +34,18 @@
 </script>
 
 <div>
-	<div>
-		<h1 class="text-2xl font-brand font-semibold text-gray-700">Your Recipients</h1>
+	<ModalForm title="Add a Recipient" show={showModal} on:close={() => handleToggleModal()}>
+		<svelte:fragment slot="body">This is content inside my modal! 👋</svelte:fragment>
+	</ModalForm>
+	<div class="flex justify-between items-center w-full">
+		<div>
+			<h1 class="text-2xl font-brand font-semibold text-gray-700">Your Recipients</h1>
+		</div>
+		<!-- <LoadingButton {loading} buttonText="Add Recipient" /> -->
+		<button
+			class="flex items-center justify-center bg-yellow-100 p-2 font-brand font-semibold text-sm rounded text-yellow-700 border-2 border-yellow-700 hover:bg-yellow-200 hover:shadow-md"
+			on:click={() => handleToggleModal()}>Add a Recipient</button
+		>
 	</div>
 	{#if loading}
 		<div class="w-full flex items-center justify-center mx-auto mt-12">
@@ -52,7 +69,6 @@
 	{:else}
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 my-12">
 			{#each people as person}
-				<!-- <pre>{JSON.stringify(person, null, 2)}</pre> -->
 				<Person {person} />
 			{/each}
 		</div>

@@ -82,7 +82,10 @@
 
 			const image = await resizeFile(file);
 
-			let { error: uploadError } = await supabase.storage.from('images').upload(filePath, image);
+			let { error: uploadError } = await supabase.storage.from('images').upload(filePath, image, {
+				cacheControl: '3600',
+				upsert: false
+			});
 
 			if (uploadError) throw uploadError;
 
@@ -131,7 +134,7 @@
 			<div>
 				<label
 					for="dropzone-file"
-					class="flex items-center justify-center bg-yellow-100 p-2 font-brand font-semibold rounded text-yellow-700 border-2 border-yellow-700 hover:bg-yellow-200 hover:cursor-pointer"
+					class="flex items-center justify-center bg-yellow-100 p-2 font-brand font-semibold rounded text-yellow-700 border-2 border-yellow-700 hover:bg-yellow-200 hover:cursor-pointer hover:shadow-md"
 				>
 					{#if addingFile}
 						<svg
@@ -196,7 +199,7 @@
 						<button
 							disabled={removeLoading}
 							on:click={() => handleDeleteFile(src.image_name)}
-							class="bg-yellow-100 p-2 font-brand font-semibold rounded text-yellow-700 border-2 border-yellow-700 hover:bg-yellow-200 hover:cursor-pointer"
+							class="bg-yellow-100 p-2 font-brand font-semibold rounded text-yellow-700 border-2 border-yellow-700 hover:bg-yellow-200 hover:cursor-pointer hover:shadow-md"
 						>
 							{#if removeLoading}
 								<svg
